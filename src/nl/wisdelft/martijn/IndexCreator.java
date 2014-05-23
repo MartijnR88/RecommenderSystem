@@ -60,7 +60,8 @@ public class IndexCreator {
 				doc.add(new Field("title", rs.getString("title"), type));
 				doc.add(new Field("content", rs.getString("body"), type));
 				//doc.add(new LongField("date", Long.parseLong(rs.getString("date")), Field.Store.YES));
-				Movie movie = new Movie(rs.getInt("number"), rs.getString("title"), rs.getString("body"));
+				//TODO: make this smarter
+				Movie movie = new Movie(rs.getInt("number"), rs.getString("title"), rs.getString("body"), Movie.Domain.DOCUMENATARY);
 				CreateRecommendations.movies.addMovie(movie);
 				indexWriter.addDocument(doc);
 			}

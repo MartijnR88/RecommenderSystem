@@ -4,17 +4,23 @@ public class Movie {
 	private int id;
 	private String title;
 	private String description;
+	public enum Domain {
+		NEWS, FILM, DOCUMENATARY, VIDEO_BLOG, EVENT_COVERAGE, SERIES
+	}
+	private Domain domain;
 	
 	public Movie() {
-		id = 0;
-		title = "";
-		description = "";
+		this.setId(0);
+		this.setTitle("");
+		this.setDescription("");
+		this.setDomain(null);
 	}
 	
-	public Movie(int id, String title, String description) {
-		this.id = id;
-		this.title = title;
-		this.description = description;
+	public Movie(int id, String title, String description, Domain domain) {
+		this.setId(id);
+		this.setTitle(title);
+		this.setDescription(description);
+		this.setDomain(domain);
 	}
 	
 	public int getId() {
@@ -40,5 +46,12 @@ public class Movie {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
+	public Domain getDomain() {
+		return domain;
+	}
+
+	public void setDomain(Domain domain) {
+		this.domain = domain;
+	}	
 }

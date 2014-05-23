@@ -48,7 +48,8 @@ public class SearchIndex {
 			String similarContent = aSimilar.get("content");
 			float score = scoreDoc.score;
 						
-			Movie movie = new Movie(Integer.parseInt(id), similarTitle, similarContent);
+			//TODO: make this smarter
+			Movie movie = new Movie(Integer.parseInt(id), similarTitle, similarContent, Movie.Domain.DOCUMENATARY);
 			similar.put(movie, score);
 		}
 		

@@ -84,7 +84,8 @@ public class CreateRecommendations {
 		int index = 0;
 		while (iterator.hasNext() && index < NUMBER_OF_RECOMMENDATIONS) {
 			Movie m = movies.getMovie(Long.parseLong(id));
-			if (!m.getTitle().equals(videoTitle)) {
+			//TODO: change this to something more smarter
+			if (!m.getTitle().equals(videoTitle) && m.getDomain().equals(Movie.Domain.DOCUMENATARY)) {
 				System.out.println("------------------------------------------------");
 				System.out.println("Id: " + id);
 				System.out.println("Title: " + m.getTitle());
