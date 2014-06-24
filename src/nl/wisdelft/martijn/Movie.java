@@ -5,7 +5,7 @@ public class Movie {
 	private String title;
 	private String description;
 	public enum Domain {
-		NEWS, FILM, DOCUMENATARY, VIDEO_BLOG, EVENT_COVERAGE, SERIES
+		NEWS, FILM, DOCUMENTARY, VIDEO_BLOG, EVENT_COVERAGE, SERIES
 	}
 	private Domain domain;
 	

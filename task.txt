@@ -1,0 +1,196 @@
+ <form id="bruteforce">
+ 
+ <div id="video" align="center" style="display:none">
+ <br/><br/>
+ <h2><bruteforce>title</bruteforce></h2>
+ <h3><i><bruteforce>domain</bruteforce></i></h3>
+ <br/><br/>
+ <video width="400" height="250" controls>
+
+<source src="<bruteforce>webm</bruteforce>" type="video/webm">
+<source src="<bruteforce>ogv</bruteforce>" type="video/ogg">
+ <source src="<bruteforce>mp4</bruteforce>" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+</div>
+
+<br />
+<br />
+<div id="bio_data" onclick="loadForm()" class="btn">Start experiment</div>
+
+<div id="form" style="display:none">
+But first, please, provide some personal information:<br/><br/>
+First name: <input type="text" id="firstname" name="firstname"><br>
+Last name: <input type="text" id="lastname" name="lastname"><br>
+Age: <input type="text" id="age" name="age"><br>
+Occupation: <input type="text" id="occupation" name="occupation"><br/>
+<i>Note: this information will only be used for academic purposes!</i></br> 
+</div>
+
+<div id="solve" onclick="loadImageList()" class="btn" style="display:none"> Go to video </div>
+<input id="data" type="hidden" value='<bruteforce>list</bruteforce>' />
+
+<div id="counter" style="text-align:center; font-weight:bold; font-size:24px"></div>
+<br/><br/>
+<div id="image-list">
+
+</div>
+
+
+
+
+<input type="hidden" id="res" name="res" value="" />
+
+<script>
+
+var divList = [];
+
+var divList1 = "";
+var divList2 = "";
+var divList3 = "";
+var divList4 = "";
+var divList5 = "";
+
+function loadForm()
+{
+document.getElementById("form").style.display="block";
+document.getElementById("bio_data").style.display="none";
+document.getElementById("solve").style.display="block";
+}
+
+function loadImageList()
+{
+var firstname = document.getElementById("firstname").value;
+var lastname = document.getElementById("lastname").value;
+var age = document.getElementById("age").value;
+var occupation = document.getElementById("occupation").value;
+document.getElementById("res").value = "{First name: "+firstname+",Last name: "+lastname+",Age: "+age+",Occupation: "+occupation+"}";
+
+document.getElementById("form").style.display="none";
+document.getElementById("counter").innerHTML="Comparison 1/20";
+document.getElementById("solve").style.display="none";
+document.getElementById("video").style.display='block';
+var list1 = JSON.parse(document.getElementById("data").value).list1;
+var list2 = JSON.parse(document.getElementById("data").value).list2;
+var list3 = JSON.parse(document.getElementById("data").value).list3;
+var list4 = JSON.parse(document.getElementById("data").value).list4;
+var list5 = JSON.parse(document.getElementById("data").value).list5;
+
+for(var i=0; i < list1.length; i++)
+{
+   divList1=divList1+"<br /><br />"+"<img src="+list1[i].image+" width=100/>"+"<div><b> Title:</b> "+list1[i].title+"<br /><b> Domain: </b>" +list1[i].domain+"</div>";
+}
+
+divList[0] = divList1;
+
+for(var i=0; i < list2.length; i++)
+{
+   divList2=divList2+"<br /><br />"+"<img src="+list2[i].image+" width=100/>"+"<div><b> Title:</b> "+list2[i].title+"<br /><b> Domain: </b>"+list2[i].domain+"</div>";
+}
+
+divList[1] = divList2;
+
+
+for(var i=0; i < list3.length; i++)
+{
+   divList3=divList3+"<br /><br />"+"<img src="+list3[i].image+" width=100/>"+"<div><b> Title:</b> "+list3[i].title+"<br /><b> Domain: </b>" +list3[i].domain+"</div>";
+}
+
+divList[2] = divList3;
+
+
+for(var i=0; i < list4.length; i++)
+{
+   divList4=divList4+"<br /><br />"+"<img src="+list4[i].image+" width=100/>"+"<div><b> Title:</b> "+list4[i].title+"<br /><b> Domain: </b>" +list4[i].domain+"</div>";
+}
+
+divList[3] = divList4;
+
+for(var i=0; i < list5.length; i++)
+{
+   divList5=divList5+"<br /><br />"+"<img src="+list5[i].image+" width=100/>"+"<div><b> Title:</b> "+list5[i].title+"<br /><b> Domain: </b>" +list5[i].domain+"</div>";
+}
+
+divList[4] = divList5;
+
+var bigDiv = "";
+
+var count = 0;
+var list = [];
+for(var i=0; i < 5;i++)
+ {
+     for(var j=0; j < 5;j++)
+     {
+         if(i != j)
+         {
+             comb  = {first:i, second:j};
+             list[count] = comb;
+             count++;
+         }
+     }
+ }
+
+var counter = 0;
+var elements = [];
+
+while(elements.length != 21)
+{
+ var i = Math.floor(Math.random()*20);
+var index = elements.indexOf(i);
+if(index == -1) {
+ 
+ var comb = list[i];
+ 
+ var fir = comb.first;
+ var sec = comb.second;
+ 
+ if(counter == 0)
+ {
+		var nex = counter+1;
+		bigDiv = bigDiv+'<div class="row"><div class="span12"><div id="'+counter+'" > <div class="span6" style="padding-left:20px; border: 2px solid; height: 1000px">'+divList[fir]+'</div><div class="span6" style="padding-left:20px; border: 2px solid; height:1000px">'+divList[sec]+'</div><br/><br/><br/><br/>Which recommendation list do you prefer?</br><select><option value="'+fir+'" selected="selected">Left</option><option value="'+sec+'">Right</option></select><br/><br/><div onclick="nextList('+counter+','+nex+','+fir+','+sec+' )" class="btn btn-primary">Next</div></div>';
+ }
+ else if(counter == 19)
+ {
+      var nex=counter+1;
+      bigDiv = bigDiv+'<div id="'+counter+'" style="display:none;"> <div class="span6" style="padding-left:20px;border: 2px solid; height: 1000px">'+divList[fir]+'</div><div class="span6" style="padding-left:20px;border: 2px solid; height:1000px">'+divList[sec]+'</div><br /><br/>Which recommendation list do you prefer?</br><select><option value="'+fir+'" selected="selected">Left</option><option value="'+sec+'">Right</option></select><br/>Do you have any comments about the whole test? <br/><input id="comment" type="text" name="comment"><br/><br/><input class="btn btn-success" type="submit" value="Submit" onclick="nextList('+counter+','+nex+','+fir+','+sec+' )"  /></div></div></div></div>'; 
+ }
+ else
+    {
+       var nex = counter+1;
+       bigDiv = bigDiv+'<div id="'+counter+'" style="display:none;"> <div class="span6" style="padding-left:20px; border: 2px solid; height: 1000px">'+divList[fir]+'</div><div class="span6" style="padding-left:20px; border: 2px solid; height: 1000px">'+divList[sec]+'</div><br /><br/>Which recommendation list do you prefer?</br><select><option value="'+fir+'" selected="selected">Left</option><option value="'+sec+'">Right</option></select><br/><br/><div onclick="nextList('+counter+','+nex+','+fir+','+sec+' )" class="btn btn-primary">Next</div></div>';
+     }
+ 
+ counter++;
+ elements[counter] = i;
+ }
+}
+
+document.getElementById("image-list").innerHTML= bigDiv;
+
+}
+
+function nextList(curr,next,i,j)
+{
+ var res = document.getElementById("res").value;
+ var com = document.getElementById("comment").value;
+ var tes = "";
+
+ var e = document.getElementsByTagName("SELECT");
+ var chosen = e[curr].value;
+ tes = {comparison:[i,j], chosen:chosen, comment:com};
+  
+  if(res !== "")
+{
+ document.getElementById("res").value = res+","+JSON.stringify(tes);
+}
+else
+{
+document.getElementById("res").value = JSON.stringify(tes); 
+}
+ document.getElementById("counter").innerHTML="Comparison "+(next+1)+"/20";
+  document.getElementById(curr).style.display="none";
+  document.getElementById(next).style.display="block";
+  
+}
+</script>
+</form>

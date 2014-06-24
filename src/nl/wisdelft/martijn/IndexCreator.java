@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
@@ -24,10 +25,12 @@ public class IndexCreator {
 	
 	private Directory indexDir;
 	private IndexWriterConfig config;
+	private String filename;
     
-	public IndexCreator(Directory indexDir, IndexWriterConfig config) {
+	public IndexCreator(Directory indexDir, IndexWriterConfig config, String filename) {
 		this.indexDir = indexDir;
 		this.config = config;
+		this.filename = filename;
 	}
 	
 	public void createIndex() throws IOException{
@@ -46,9 +49,10 @@ public class IndexCreator {
 			System.out.println("Creating statement...");
 			stmt = conn.createStatement();
 			String sql;
-			sql = "SELECT number, title, body, keywords, date FROM oi_mediafragments_table";
+			sql = "SELECT title, body, source FROM oi_mediafragments_table";
 			ResultSet rs = stmt.executeQuery(sql);
-
+			RetrieveDomains domains = new RetrieveDomains(filename);
+			
 			while (rs.next()) {
 				FieldType type = new FieldType();
 				type.setIndexed(true);
@@ -56,14 +60,17 @@ public class IndexCreator {
 				type.setStoreTermVectors(true); //TermVectors are needed for MoreLikeThis
 				
 				Document doc = new Document();
-				doc.add(new StringField("id", Integer.toString(rs.getInt("number")), Store.YES));
-				doc.add(new Field("title", rs.getString("title"), type));
-				doc.add(new Field("content", rs.getString("body"), type));
+				//doc.add(new StringField("id", Integer.toString(rs.getInt("number")), Store.YES));
+				doc.add(new StringField("id", StringEscapeUtils.unescapeHtml4(rs.getString("source")).replace("oaiopenimages.eu", ""), Store.YES));
+				doc.add(new Field("title", StringEscapeUtils.unescapeHtml4(rs.getString("title")), type));
+				doc.add(new Field("content", StringEscapeUtils.unescapeHtml4(rs.getString("body")), type));				
 				//doc.add(new LongField("date", Long.parseLong(rs.getString("date")), Field.Store.YES));
-				//TODO: make this smarter
-				Movie movie = new Movie(rs.getInt("number"), rs.getString("title"), rs.getString("body"), Movie.Domain.DOCUMENATARY);
-				CreateRecommendations.movies.addMovie(movie);
-				indexWriter.addDocument(doc);
+				Movie.Domain domain = domains.getDomain(rs.getString("source").replace("oaiopenimages.eu", ""));
+				if (domain != null) {
+					Movie movie = new Movie(Integer.parseInt(rs.getString("source").replace("oaiopenimages.eu", "")), rs.getString("title"), rs.getString("body"), domain);
+					CreateRecommendations.movies.addMovie(movie);
+					indexWriter.addDocument(doc);
+				}
 			}
 						
 			rs.close();
