@@ -256,64 +256,25 @@ public class RetrieveDomains {
 		ArrayList<String> news_selected = new ArrayList<String>();
 		ArrayList<String> docu_selected = new ArrayList<String>();
 		ArrayList<String> event_selected = new ArrayList<String>();
-		news_selected.add("615283");
-		news_selected.add("63435");
-		news_selected.add("614834");
-		docu_selected.add("2277");
-		docu_selected.add("1479");
-		docu_selected.add("611962");
-		event_selected.add("617543");
-		event_selected.add("617569");
-		event_selected.add("631648");
-		
-		//ArrayList<String> docu_relevant = domain.randomlySelectVideos(20, documentary);
-		ArrayList<String> docu_relevant = new ArrayList<String>();
-		docu_relevant.add("148241");
-		docu_relevant.add("1759");
-		docu_relevant.add("151339");
-		docu_relevant.add("71534");
-		docu_relevant.add("62169");
-		docu_relevant.add("613521");
-		docu_relevant.add("155955");
-		docu_relevant.add("639267");
-		docu_relevant.add("1293");
-		docu_relevant.add("151573");
-		docu_relevant.add("3155");
-		docu_relevant.add("1095");
-		docu_relevant.add("15581");
-		docu_relevant.add("630200");
-		docu_relevant.add("1479");
-		docu_relevant.add("3223");
-		docu_relevant.add("638618");
-		docu_relevant.add("637984");
-		docu_relevant.add("28984");
-		docu_relevant.add("151856");
-		//ArrayList<String> news_relevant = domain.randomlySelectVideos(20, news);
-		ArrayList<String> news_relevant = new ArrayList<String>();
-		news_relevant.add("613558");
-		news_relevant.add("63435");
-		news_relevant.add("155988");
-		news_relevant.add("149961");
-		news_relevant.add("151031");
-		news_relevant.add("2291");
-		news_relevant.add("630741");
-		news_relevant.add("1493");
-		news_relevant.add("2583");
-		news_relevant.add("617520");
-		news_relevant.add("3269");
-		news_relevant.add("151252");
-		news_relevant.add("151225");
-		news_relevant.add("151639");
-		news_relevant.add("1321");
-		news_relevant.add("614834");
-		news_relevant.add("159704");
-		news_relevant.add("151312");
-		news_relevant.add("1857");
-		news_relevant.add("615283");
-		
-		createCombinations(news_selected, docu_relevant, "strategy1.json");
-		createCombinations(docu_selected, news_relevant, "strategy2.json");
-		createCombinations(event_selected, docu_relevant, "strategy3.json");
+		news_selected.add("1493"); //news
+		news_selected.add("151225"); //news
+		news_selected.add("612014"); //news
+		news_selected.add("614834"); //news
+		news_selected.add("155988"); //news
+		event_selected.add("617569"); //event
+		event_selected.add("630457"); //event
+		event_selected.add("155841"); //event
+		event_selected.add("613631"); //event
+		event_selected.add("631648"); //event
+		docu_selected.add("1885"); //docu
+		docu_selected.add("15581"); //docu
+		docu_selected.add("28984"); //docu
+		docu_selected.add("639267"); //docu
+		docu_selected.add("611962"); //docu		
+						
+		createCombinations(news_selected, documentary, "ground_truth_test1.json");
+		createCombinations(docu_selected, news, "ground_truth_test2.json");
+		createCombinations(event_selected, documentary, "ground_truth_test3.json");
 		
 //		System.out.println(domain.getDomain("624385"));
 //		System.out.println(news.size());

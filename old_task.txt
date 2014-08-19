@@ -1,0 +1,112 @@
+<video width="500" height="350" controls>
+<source src="<bruteforce>webm</bruteforce>" type="video/webm">
+<source src="<bruteforce>ogv</bruteforce>" type="video/ogg">
+ <source src="<bruteforce>mp4</bruteforce>" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+<br />
+<br />
+<div id="solve" onclick="loadImageList()" class="btn" > Let's start solving </div>
+<input id="data" type="hidden" value='<bruteforce>list</bruteforce>' />
+<div id="counter"></div>
+<div id="image-list">
+</div>
+<input type="hidden" id="res" name="res" value="" />
+<script>
+var divList = [];
+var divList1 = "";
+var divList2 = "";
+var divList3 = "";
+var divList4 = "";
+var divList5 = "";
+function loadImageList()
+{
+document.getElementById("counter").innerHTML="1/20";
+document.getElementById("solve").style.display="none";
+  var list1 = JSON.parse(document.getElementById("data").value).list1;
+  var list2 = JSON.parse(document.getElementById("data").value).list2;
+var list3 = JSON.parse(document.getElementById("data").value).list3;
+var list4 = JSON.parse(document.getElementById("data").value).list4;
+var list5 = JSON.parse(document.getElementById("data").value).list5;
+for(var i=0; i < list1.length; i++)
+{
+   divList1=divList1+"<br /><br />"+list1[i].title+"<img src="+list1[i].image+" />";
+}
+divList[0] = divList1+'Choose this <input type="radio" name="choice" value="list1" />';
+for(var i=0; i < list2.length; i++)
+{
+   divList2=divList2+"<br /><br />"+list2[i].title+"<img src="+list2[i].image+" />";
+}
+divList[1] = divList2+'Choose this <input type="radio" name="choice" value="list2" />';;
+for(var i=0; i < list3.length; i++)
+{
+   divList3=divList3+"<br /><br />"+list3[i].title+"<img src="+list3[i].image+" />";
+}
+divList[2] = divList3+'Choose this <input type="radio" name="choice" value="list3" />';
+for(var i=0; i < list4.length; i++)
+{
+   divList4=divList4+"<br /><br />"+list4[i].title+"<img src="+list4[i].image+" />";
+}
+divList[3] = divList4+'Choose this <input type="radio" name="choice" value="list4" />';;
+for(var i=0; i < list5.length; i++)
+{
+   divList5=divList5+"<br /><br />"+list5[i].title+"<img src="+list5[i].image+" />";
+}
+divList[4] = divList5+'Choose this <input type="radio" name="choice" value="list5" /><br />';
+var bigDiv = "";
+var count=1;
+for(var i=0; i < 5;i++)
+{
+for(var j=0; j < 5;j++)
+{
+if(i != j)
+{
+    if(count == 20)
+    {
+      bigDiv = bigDiv+'<div id="'+count+'" style="display:none;"> <div class="span6">'+divList[i]+'</div><div class="span6">'+divList[j]+'</div><br /><input class="btn btn-success" type="submit" value="Submit" onclick="nextList('+count+','+nex+','+i+','+j+' )"  /></div></div></div></div>'; 
+     }
+else if(count == 1)
+{
+       var nex = count+1;
+bigDiv = bigDiv+'<div class="row"><div class="span12"><div id="'+count+'" > <div class="span6">'+divList[i]+'</div><div class="span6">'+divList[j]+'</div><br /><div onclick="nextList('+count+','+nex+','+i+','+j+' )" class="btn btn-primary">Next</div></div>';
+ count++;
+}
+    else
+    {
+       var nex = count+1;
+       bigDiv = bigDiv+'<div id="'+count+'" style="display:none;"> <div class="span6">'+divList[i]+'</div><div class="span6">'+divList[j]+'</div><br /><div onclick="nextList('+count+','+nex+','+i+','+j+' )" class="btn btn-primary">Next</div></div>';
+       count++;
+     }
+}
+ }
+ }
+document.getElementById("image-list").innerHTML= bigDiv;
+}
+var counter=1;
+function nextList(curr,next,i,j)
+{
+counter++;
+ var res = document.getElementById("res").value;
+var tes = ""; 
+  if(document.getElementsByName("choice")[i].checked)
+{
+   tes = {comparison:[i,j], chosen:i};
+}
+else
+{
+  tes = {comparison:[i,j], chosen:j};
+}
+if(res !== "")
+{
+ document.getElementById("res").value = res+","+JSON.stringify(tes);
+}
+else
+{
+document.getElementById("res").value = JSON.stringify(tes); 
+}
+ document.getElementById("counter").innerHTML=next+"/20";
+  document.getElementById(curr).style.display="none";
+  document.getElementById(next).style.display="block";
+ 
+}
+</script>
